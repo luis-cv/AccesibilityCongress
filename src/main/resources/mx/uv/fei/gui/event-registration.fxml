@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="445.0" maxWidth="570.0" prefHeight="445.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.uv.fei.gui.EventRegistrationController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+   <GridPane prefWidth="461.0" VBox.vgrow="ALWAYS">
+       <columnConstraints>
+           <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="230.0" />
+           <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="77.0" />
+           <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="230.0" />
+       </columnConstraints>
+       <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+       </rowConstraints>
+
+       <children>
+            <Label fx:id="labelEventName" text="Nombre del evento:" GridPane.rowIndex="0" />
+            <Label fx:id="labelLecturerName" text="Nombre del conferencista:" GridPane.rowIndex="2" />
+            <Label fx:id="labelEventType" text="Tipo de evento:" GridPane.columnIndex="2" />
+            <TextField fx:id="textFieldEventName" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldLecturerName" GridPane.rowIndex="3" />
+            <Label fx:id="labelEventPlace" text="Lugar" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id="comboBoxEventType" prefHeight="25.0" prefWidth="205.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldEventPlace" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+       </children>
+
+   </GridPane>
+   
+   <GridPane VBox.vgrow="ALWAYS">
+     <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="142.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="8.0" prefWidth="27.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="124.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="2.0" prefWidth="27.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="141.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+      <children>
+         <Label fx:id="labelEventDate" text="Fecha:" />
+         <Label fx:id="labelEventStartTime" text="Hora inicio:" GridPane.columnIndex="2" />
+         <Label fx:id="labelEventDuration" text="Duración:" GridPane.columnIndex="4" />
+         <ComboBox fx:id="comboBoxEventStartTime" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <TextField fx:id="textFieldEventDuration" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+         <DatePicker fx:id="datePickerEventDate" GridPane.rowIndex="1" />
+      </children>
+   </GridPane>
+   <GridPane VBox.vgrow="ALWAYS">
+     <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.0" minWidth="10.0" prefWidth="173.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.0" minWidth="10.0" prefWidth="105.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="173.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+     </rowConstraints>
+      <children>
+         <Button fx:id="buttonRegisterEvent" mnemonicParsing="false" onMouseClicked="#cancelRegister" prefHeight="25.0" prefWidth="104.0" text="Cancelar" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+         <Button fx:id="buttonCancelRegister" mnemonicParsing="false" onMouseClicked="#registerEvent" prefHeight="25.0" prefWidth="103.0" text="Guardar" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+      </children>
+   </GridPane>
+</VBox>

@@ -6,14 +6,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
-import mx.uv.fei.logic.Attendant;
-import mx.uv.fei.logic.Event;
-
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
+import mx.uv.fei.logic.Attendant;
+import mx.uv.fei.logic.Event;
 import mx.uv.fei.logic.EventDAO;
+import mx.uv.fei.logic.AttendantDAO;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -82,20 +84,20 @@ public class AttendantRegistrationController {
         return textFieldAttendantName.getText().isBlank() || textFieldAttendantLastName.getText().isBlank() || textFieldAttendantEmail.getText().isBlank() || textFieldEventID.getText().isBlank();
     }
 
-    public void showAlert(int formStatus){
+    public void showAlert(String formStatus){
         Alert alertWindow;
         switch (formStatus) {
-            case 1 -> {
+            case "correct" -> {
                 alertWindow = new Alert(Alert.AlertType.CONFIRMATION);
                 alertWindow.setTitle("Confirmación");
                 alertWindow.setHeaderText("Asistencia registrada"); alertWindow.showAndWait();
-            } case 2 -> {
+            } case "empty" -> {
                 alertWindow = new Alert(Alert.AlertType.INFORMATION);
                 alertWindow.setTitle("Atención");
                 alertWindow.setHeaderText("Se deben llenar todos los campos");
                 alertWindow.showAndWait();
             }
-            case 3 -> {
+            case "error" -> {
                 alertWindow = new Alert(Alert.AlertType.ERROR);
                 alertWindow.setTitle("Error");
                 alertWindow.setHeaderText("Error al registrar la asistencia");
@@ -106,22 +108,37 @@ public class AttendantRegistrationController {
 
     @FXML
     public void registerAssist() {
+        String formFlag;
+
         if (emptyForm()) {
-            showAlert(2);
+            formFlag = "empty";
+            showAlert(formFlag);
         } else {
+            String attendantName = textFieldAttendantName.getText();
+            String attendantLastName = textFieldAttendantLastName.getText();
+            String attendantEmail = textFieldAttendantEmail.getText();
+            String attendantEventAssist = textFieldEventID.getText();
+
+            Attendant attendant = new Attendant();
+            attendant.setName(attendantName);
+            attendant.setLastname(attendantLastName);
+            attendant.setEmail(attendantEmail);
+            attendant.setEventAssist(attendantEventAssist);
+
+            AttendantDAO attendantDAO = new AttendantDAO();
+
             try {
-                Attendant attendantObject = new Attendant();
-                attendantObject.setName(textFieldAttendantName.getText());
-                attendantObject.setLastname(textFieldAttendantLastName.getText());
-                attendantObject.setEmail(textFieldAttendantEmail.getText());
-                attendantObject.setEventAssist(textFieldEventID.getText());
-                attendantObject.registerAttendant();
-
-                showAlert(1);
-                clearForm();
-
+                if (attendantDAO.addAttendant(attendant) > 0) {
+                    formFlag = "correct";
+                    showAlert(formFlag);
+                    clearForm();
+                } else {
+                    formFlag = "error";
+                    showAlert(formFlag);
+                }
             } catch (SQLException exception) {
-                showAlert(3);
+                formFlag = "error";
+                showAlert(formFlag);
             }
         }
     }

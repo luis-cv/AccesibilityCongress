@@ -51,23 +51,4 @@ public class Attendant {
     public String getEventAssist() {
         return eventAssist;
     }
-
-    public int registerAttendant() throws SQLException {
-        int result;
-        String sqlQuery = "INSERT INTO Attendants (AttendantName, AttendantLastName, Email, EventAssist) VALUES (?,?,?,?)";
-
-        DataBaseManager dataBaseManager = new DataBaseManager();
-        Connection connection = dataBaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-
-        preparedStatement.setString(1,attendantName);
-        preparedStatement.setString(2,attendantLastName);
-        preparedStatement.setString(3,email);
-        preparedStatement.setString(4,eventAssist);
-
-        result = preparedStatement.executeUpdate();
-        connection.close();
-
-        return result;
-    }
 }

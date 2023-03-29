@@ -8,8 +8,30 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-public class EventDAO {
-    public static ArrayList<Event> consultEvents() throws SQLException{
+public class EventDAO implements IEvent {
+
+    public int addEvent(Event event) throws SQLException{
+        int result;
+        String sqlQuery = "INSERT INTO Events (EventName, LecturerName, Duration, Place, EventDate, EventTime, EventType) VALUES (?,?,?,?,?,?,?)";
+
+        DataBaseManager dataBaseManagerManager = new DataBaseManager();
+        Connection connection = dataBaseManagerManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+        preparedStatement.setString(1,event.getEventName());
+        preparedStatement.setString(2, event.getLecturerName());
+        preparedStatement.setInt(3,event.getDuration());
+        preparedStatement.setString(4,event.getPlace());
+        preparedStatement.setString(5,event.getDate());
+        preparedStatement.setString(6, event.getTime());
+        preparedStatement.setString(7, event.getEventType());
+
+        result = preparedStatement.executeUpdate();
+        connection.close();
+
+        return result;
+    }
+    public ArrayList<Event> getAllEvents() throws SQLException{
         ArrayList<Event> listEventsDB;
         String sqlQuery = "SELECT * FROM Events;";
 

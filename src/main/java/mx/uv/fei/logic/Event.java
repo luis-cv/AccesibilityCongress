@@ -1,11 +1,5 @@
 package mx.uv.fei.logic;
 
-import mx.uv.fei.dataaccess.DataBaseManager;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
 public class Event {
     private int idEvent;
     private String eventName;
@@ -17,23 +11,11 @@ public class Event {
     private String eventType;
 
     public Event() {}
-    public Event(String eventName, String lecturerName, int duration, String place, String date, String time, String eventType) {
-        this.eventName = eventName;
-        this.lecturerName = lecturerName;
-        this.duration = duration;
-        this.place = place;
-        this.date = date;
-        this.time = time;
-        this.eventType = eventType;
-    }
-
-    public Event(int idEvent, String eventName, String lecturerName, int duration, String place, String eventDate, String eventTime, String eventType) {
-
-    }
 
     public void setIdEvent(int idEvent) {
         this.idEvent = idEvent;
     }
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
@@ -62,25 +44,35 @@ public class Event {
         this.eventType = eventType;
     }
 
-    public int registerEvent() throws SQLException {
-        int result;
-        String sqlQuery = "INSERT INTO Events (EventName, LecturerName, Duration, Place, EventDate, EventTime, EventType) VALUES (?,?,?,?,?,?,?)";
+    public int getIdEvent() {
+        return idEvent;
+    }
 
-        DataBaseManager dataBaseManagerManager = new DataBaseManager();
-        Connection connection = dataBaseManagerManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+    public String getEventName() {
+        return  eventName;
+    }
 
-        preparedStatement.setString(1,eventName);
-        preparedStatement.setString(2,lecturerName);
-        preparedStatement.setInt(3,duration);
-        preparedStatement.setString(4,place);
-        preparedStatement.setString(5,date);
-        preparedStatement.setString(6,time);
-        preparedStatement.setString(7,eventType);
+    public String getLecturerName() {
+        return lecturerName;
+    }
 
-        result = preparedStatement.executeUpdate();
-        connection.close();
+    public int getDuration() {
+        return duration;
+    }
 
-        return result;
+    public String getPlace() {
+        return place;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getEventType() {
+        return eventType;
     }
 }

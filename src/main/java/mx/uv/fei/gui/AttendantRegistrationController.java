@@ -62,8 +62,9 @@ public class AttendantRegistrationController {
     private Button buttonRegisterAssist;
 
     private void fillTable() throws SQLException{
+        EventDAO eventDAO = new EventDAO();
         ObservableList<Event> listEvents = FXCollections.observableArrayList();
-        ArrayList<Event> eventsDB = EventDAO.consultEvents();
+        ArrayList<Event> eventsDB = eventDAO.getAllEvents();
 
         listEvents.addAll(eventsDB);
         tableViewEvents.setItems(listEvents);
@@ -114,16 +115,11 @@ public class AttendantRegistrationController {
             formFlag = "empty";
             showAlert(formFlag);
         } else {
-            String attendantName = textFieldAttendantName.getText();
-            String attendantLastName = textFieldAttendantLastName.getText();
-            String attendantEmail = textFieldAttendantEmail.getText();
-            String attendantEventAssist = textFieldEventID.getText();
-
             Attendant attendant = new Attendant();
-            attendant.setName(attendantName);
-            attendant.setLastname(attendantLastName);
-            attendant.setEmail(attendantEmail);
-            attendant.setEventAssist(attendantEventAssist);
+            attendant.setName(textFieldAttendantLastName.getText());
+            attendant.setLastname(textFieldAttendantLastName.getText());
+            attendant.setEmail(textFieldAttendantEmail.getText());
+            attendant.setEventAssist(textFieldEventID.getText());
 
             AttendantDAO attendantDAO = new AttendantDAO();
 

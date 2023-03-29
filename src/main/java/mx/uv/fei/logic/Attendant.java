@@ -1,11 +1,5 @@
 package mx.uv.fei.logic;
 
-import mx.uv.fei.dataaccess.DataBaseManager;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class Attendant {
     private String attendantName;
     private String attendantLastName;
@@ -13,12 +7,6 @@ public class Attendant {
     private String eventAssist;
 
     public Attendant(){}
-    public Attendant(String attendantName, String attendantLastname, String email, String eventAssist) {
-        this.attendantName = attendantName;
-        this.attendantLastName = attendantLastname;
-        this.email = email;
-        this.eventAssist = eventAssist;
-    }
 
     public void setName(String attendantName) {
         this.attendantName = attendantName;
@@ -50,24 +38,5 @@ public class Attendant {
 
     public String getEventAssist() {
         return eventAssist;
-    }
-
-    public int registerAttendant() throws SQLException {
-        int result;
-        String sqlQuery = "INSERT INTO Attendants (AttendantName, AttendantLastName, Email, EventAssist) VALUES (?,?,?,?)";
-
-        DataBaseManager dataBaseManager = new DataBaseManager();
-        Connection connection = dataBaseManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-
-        preparedStatement.setString(1,attendantName);
-        preparedStatement.setString(2,attendantLastName);
-        preparedStatement.setString(3,email);
-        preparedStatement.setString(4,eventAssist);
-
-        result = preparedStatement.executeUpdate();
-        connection.close();
-
-        return result;
     }
 }

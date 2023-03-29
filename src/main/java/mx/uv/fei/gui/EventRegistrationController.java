@@ -11,6 +11,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import mx.uv.fei.logic.Event;
+import mx.uv.fei.logic.EventDAO;
+
 import java.sql.SQLException;
 
 public class EventRegistrationController {
@@ -68,21 +70,21 @@ public class EventRegistrationController {
         return textFieldEventName.getText().isBlank() || textFieldLecturerName.getText().isBlank() || comboBoxEventType.getSelectionModel().isEmpty() || textFieldEventPlace.getText().isBlank() || comboBoxEventStartTime.getSelectionModel().isEmpty() || (datePickerEventDate.getValue()) == null || textFieldEventDuration.getText().isBlank();
     }
     
-    public void showAlert(int formStatus) {
+    public void showAlert(String formStatus) {
         Alert alertWindow;
         switch (formStatus) {
-            case 1 -> {
+            case "correct" -> {
                 alertWindow = new Alert(Alert.AlertType.CONFIRMATION);
                 alertWindow.setTitle("Confirmación");
-                alertWindow.setHeaderText("Evento registrado.");
-                alertWindow.showAndWait();
-            } case 2 -> {
+                alertWindow.setHeaderText("Evento registrado"); alertWindow.showAndWait();
+            } case "empty" -> {
                 alertWindow = new Alert(Alert.AlertType.INFORMATION);
                 alertWindow.setTitle("Atención");
                 alertWindow.setHeaderText("Se deben llenar todos los campos");
                 alertWindow.showAndWait();
-            } case 3 -> {
-                alertWindow = new Alert(Alert.AlertType.INFORMATION);
+            }
+            case "error" -> {
+                alertWindow = new Alert(Alert.AlertType.ERROR);
                 alertWindow.setTitle("Error");
                 alertWindow.setHeaderText("Error al registrar el evento");
                 alertWindow.showAndWait();
@@ -92,25 +94,36 @@ public class EventRegistrationController {
 
     @FXML
     public void registerEvent() {
+        String formFlag;
+
         if (emptyForm()) {
-            showAlert(2);
+            formFlag = "empty";
+            showAlert(formFlag);
         } else {
+
+            Event event = new Event();
+            event.setEventName(textFieldEventName.getText());
+            event.setLecturerName(textFieldLecturerName.getText());
+            event.setDuration(Integer.parseInt(textFieldEventDuration.getText()));
+            event.setPlace(textFieldEventPlace.getText());
+            event.setDate(String.valueOf(datePickerEventDate.getValue()));
+            event.setTime(String.valueOf(comboBoxEventStartTime.getValue()));
+            event.setEventType(String.valueOf(comboBoxEventType.getValue()));
+
+            EventDAO eventDAO = new EventDAO();
+
             try {
-                Event eventObject = new Event();
-                eventObject.setEventName(textFieldEventName.getText());
-                eventObject.setLecturerName(textFieldLecturerName.getText());
-                eventObject.setDuration(Integer.parseInt(textFieldEventDuration.getText()));
-                eventObject.setPlace(textFieldEventPlace.getText());
-                eventObject.setDate(String.valueOf(datePickerEventDate.getValue()));
-                eventObject.setTime(String.valueOf(comboBoxEventStartTime.getValue()));
-                eventObject.setEventType(String.valueOf(comboBoxEventType.getValue()));
-                eventObject.registerEvent();
-
-                showAlert(1);
-                clearForm();
-
+                if (eventDAO.addEvent(event) > 0) {
+                    formFlag = "correct";
+                    showAlert(formFlag);
+                    clearForm();
+                } else {
+                    formFlag = "error";
+                    showAlert(formFlag);
+                }
             } catch (SQLException exception) {
-                showAlert(3);
+                formFlag = "error";
+                showAlert(formFlag);
             }
         }
     }

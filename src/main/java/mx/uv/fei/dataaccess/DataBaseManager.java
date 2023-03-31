@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 public class DataBaseManager {
     private Connection connection;
-    private final String DATABASE_NAME = "jdbc:mysql://localhost:3306/congress";
-    private final String DATABASE_USER = "congressAdmin";
-    private final String DATABASE_PASSWORD = "191846n2";
+    private final String DATABASE_NAME = "jdbc:mariadb://localhost:3306/congress";
+    private final String DATABASE_USER = "systemUser";
+    private final String DATABASE_PASSWORD = "AccsCongSys";
 
     public Connection getConnection() throws SQLException {
         connect();

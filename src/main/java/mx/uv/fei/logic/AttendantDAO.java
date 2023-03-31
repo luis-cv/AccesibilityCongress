@@ -22,7 +22,7 @@ public class AttendantDAO implements IAttendant {
         preparedStatement.setString(4, attendant.getEventAssist());
 
         result = preparedStatement.executeUpdate();
-        connection.close();
+        dataBaseManager.closeConnection();
 
         return result;
     }

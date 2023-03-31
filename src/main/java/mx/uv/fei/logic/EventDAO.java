@@ -27,7 +27,7 @@ public class EventDAO implements IEvent {
         preparedStatement.setString(7, event.getEventType());
 
         result = preparedStatement.executeUpdate();
-        connection.close();
+        dataBaseManagerManager.closeConnection();
 
         return result;
     }

@@ -14,8 +14,8 @@ public class EventDAO implements IEvent {
         int result;
         String sqlQuery = "INSERT INTO Events (EventName, LecturerName, Duration, Place, EventDate, EventTime, EventType) VALUES (?,?,?,?,?,?,?)";
 
-        DataBaseManager dataBaseManagerManager = new DataBaseManager();
-        Connection connection = dataBaseManagerManager.getConnection();
+        DataBaseManager dataBaseManager = new DataBaseManager();
+        Connection connection = dataBaseManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
         preparedStatement.setString(1,event.getEventName());
@@ -27,7 +27,7 @@ public class EventDAO implements IEvent {
         preparedStatement.setString(7, event.getEventType());
 
         result = preparedStatement.executeUpdate();
-        dataBaseManagerManager.closeConnection();
+        dataBaseManager.closeConnection();
 
         return result;
     }
